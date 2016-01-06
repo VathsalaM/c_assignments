@@ -22,3 +22,6 @@ void map(ArrayUtil source, ArrayUtil destination, ConvertFunc* convert, void* hi
 void add(void* hint, void* item);
 typedef void OperationFunc(void* hint, void* item);
 void forEach(ArrayUtil util, OperationFunc* operation, void* hint);
+typedef void* ReducerFunc(void* hint, void* previousItem, void* item);
+void* add_all(void* hint, void* previousItem, void* item);
+void* reduce(ArrayUtil util, ReducerFunc* reducer, void* hint, void* intialValue);

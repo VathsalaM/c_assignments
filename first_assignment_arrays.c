@@ -125,10 +125,13 @@ void multiply(void* hint, void* sourceItem, void* destinationItem){
 }
 
 void map(ArrayUtil source, ArrayUtil destination, ConvertFunc* convert, void* hint){
-  int *a = (int *)source.base;
-  int *b = (int *)destination.base;
+  // int *a = (int *)source.base;
+  // int *b = (int *)destination.base;
+  // for (int i = 0; i < source.length; i++) {
+  //   convert(hint,&a[i],&b[i]);
+  // }
   for (int i = 0; i < source.length; i++) {
-    convert(hint,&a[i],&b[i]);
+    convert(hint,source.base+(source.typeSize*i),destination.base+(destination.typeSize*i));
   }
 }
 
@@ -140,8 +143,27 @@ void add(void* hint, void* item){
 }
 
 void forEach(ArrayUtil util, OperationFunc* operation, void* hint){
-  int *a = (int *)util.base;
+  // int *a = (int *)util.base;
   for (int i = 0; i < util.length; i++) {
-    operation(hint,&a[i]);
+    // operation(hint,&a[i]);
+    operation(hint,util.base+(util.typeSize*i));
   }
+}
+
+void* add_all(void* hint, void* previousItem, void* item){
+  int ele = (int *)hint;
+  int prevItem = (int *)previousItem;
+  int currentItem = (int *)item;
+  return ele+prevItem+currentItem;
+}
+
+void* reduce(ArrayUtil util, ReducerFunc* reducer, void* hint, void* intialValue){
+  int *a = (int *)util.base;
+  void* result = (int *)intialValue;
+  for (int i = 0; i < util.length; i++) {
+    void* item = (void *)a[i];
+    result = reducer(hint,result,item);
+  }
+  // printf("%d\n",result );
+  return result ;
 }

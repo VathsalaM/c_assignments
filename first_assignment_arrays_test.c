@@ -134,6 +134,8 @@ void test_filter(){
   assert(*dest[1]==4);
   assert(*dest[2]==6);
   assert(*dest[3]==8);
+  // assert(dest.length==4);
+
 }
 
 void test_convert(){
@@ -167,9 +169,11 @@ void test_map(){
   assert(b[3]==0);
 
   map(source,destination,convert,3);
+
   assert(b[0]==0);
   assert(b[1]==3);
   assert(b[2]==6);
+  assert(b[4]==12);
   assert(b[3]==9);
 }
 
@@ -199,4 +203,21 @@ void test_forEach(){
   assert(a[1]==3);
   assert(a[2]==4);
   assert(a[3]==5);
+}
+
+void test_ReducerFunc(){
+  ReducerFunc *reducer = add_all;
+  int result = (int *)(reducer(3,5,6));
+  assert(result==14);
+}
+
+void test_reduce(){
+  ReducerFunc *reducer = add_all;
+  ArrayUtil source = create(4,3);
+  int *a = (int *)source.base;
+  for (int i = 0; i < source.length; i++) {
+    a[i] = 1;
+  }
+  int result = (int *)reduce(source,reducer,1,2);
+  assert(result == 8);
 }
