@@ -172,3 +172,31 @@ void test_map(){
   assert(b[2]==6);
   assert(b[3]==9);
 }
+
+void test_OperationFunc(){
+  OperationFunc *operate = add;
+  ArrayUtil source = create(4,6);
+  int *a = (int *)source.base;
+  a[1] = 23;
+  assert(a[1]==23);
+  operate(2,&a[1]);
+  assert(a[1]==25);
+}
+
+void test_forEach(){
+  OperationFunc *operate = add;
+  ArrayUtil source = create(4,6);
+  int *a = (int *)source.base;
+  for (int i = 0; i < source.length; i++) {
+    a[i] = i;
+  }
+  assert(a[0]==0);
+  assert(a[1]==1);
+  assert(a[2]==2);
+  assert(a[3]==3);
+  forEach(source,operate,2);
+  assert(a[0]==2);
+  assert(a[1]==3);
+  assert(a[2]==4);
+  assert(a[3]==5);
+}

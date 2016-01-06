@@ -131,3 +131,17 @@ void map(ArrayUtil source, ArrayUtil destination, ConvertFunc* convert, void* hi
     convert(hint,&a[i],&b[i]);
   }
 }
+
+void add(void* hint, void* item){
+  int ele = (int *)hint;
+  int *address = item;
+  int value = *address;
+  *address = value+ele;
+}
+
+void forEach(ArrayUtil util, OperationFunc* operation, void* hint){
+  int *a = (int *)util.base;
+  for (int i = 0; i < util.length; i++) {
+    operation(hint,&a[i]);
+  }
+}
