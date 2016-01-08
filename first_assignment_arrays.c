@@ -3,64 +3,47 @@
 #include "first_assignment_arrays.h"
 
 ArrayUtil create(int typeSize,int length){
-  int *base_array = (int *)calloc(length,typeSize);
-  ArrayUtil *Array = (ArrayUtil *)malloc(sizeof(ArrayUtil));
-  Array->typeSize = typeSize;
-  Array->length = length;
-  Array->base = base_array;
-  return (*Array) ;
+  ArrayUtil Array;
+  Array.length = length;
+  Array.typeSize = typeSize;
+  Array.base = calloc(length,typeSize);
+  return Array;
 };
 
 int areEqual(ArrayUtil a, ArrayUtil b){
   if((a.length!=b.length) || (a.typeSize!=b.typeSize))
     return 0;
-  int length = a.length;
-  int *array_a = a.base;
-  int *array_b = b.base;
-  while(length>=0){
-    if(array_a[length]!=array_b[length])
+  for (int i = 0; i < a.length; i++) {
+    int *a1 = (int *)a.base;
+    int *b1 = (int *)b.base;
+    if(a1[i] != b1[i])
       return 0;
-    length--;
   }
   return 1;
 }
 
 ArrayUtil resize(ArrayUtil util, int length) {
   int new_length = length-util.length;
-  int *array = util.base;
-  // if(new_length<0){
-  //   int count = 0;
-  //   for (int i = length; i >util.length ; i--) {
-  //     free(&array[count]);
-  //     count++;
-  //   }
-  //   return util;
-  // }
-  array = (int *) realloc(array,length);
+  util.base = (void *) realloc(util.base,length);
+  int *address_a = util.base;
   for (int i = util.length; i < length; i++) {
-    array[i] = 0;
+    *(address_a+i*util.typeSize) = 0;
   }
   util.length = length;
   return util;
 }
 
 int findIndex(ArrayUtil util, void* element){
-  int *a1 = (int *)util.base;
-  int ele = (int *)element;
+  int *address = util.base;
   for (int i = 0; i < util.length; i++) {
-    if(a1[i]==ele)
+    if(*(address+i*util.typeSize)==element)
       return i;
   }
   return -1;
 }
 
 void dispose(ArrayUtil util){
-  // int *array = util.base;
-
   free(util.base);
-  // for (int i = 0; i <= util.length ; i--) {
-    // free(&array[i]);
-  // }
   return ;
 }
 

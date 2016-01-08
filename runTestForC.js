@@ -89,7 +89,7 @@ function runAllTests(tests, summary,dependency,stop) {
         child_process.execSync(command);
         child_process.exec('./arrayUtilTest', printResult(test, tests, summary,dependency,stop));
     }catch(e){ console.log(e.message)};
-    
+
 };
 
 function matchedTest(option){

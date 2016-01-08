@@ -5,12 +5,17 @@
 
 void test_create_array() {
   ArrayUtil a = create(4,5);
+  ArrayUtil b = create(4,5);
   assert(a.length==5);
   assert(a.typeSize==4);
-  // int *a1 = (int *)a.base;
-  // for (int i = 0; i < a.length; i++) {
-  //   a1[i]=11;
-  // }
+  int *address_a = a.base;
+  int *address_b = b.base;
+  for (int i = 0; i < a.length; i++) {
+    assert(*(address_a+i*a.typeSize)==0);
+  }
+  for (int i = 0; i < b.length; i++) {
+    assert(*(address_b+i*b.typeSize)==0);
+  }
 }
 
 void test_areEqual(){
@@ -19,7 +24,6 @@ void test_areEqual(){
   ArrayUtil c = create(4,9);
   ArrayUtil d = create(4,9);
   ArrayUtil e = create(4,2);
-  ArrayUtil f = create(8,9);
   int *c1 = (int *)c.base;
   int *d1 = (int *)d.base;
   c1[3] = 23;
@@ -33,15 +37,13 @@ void test_areEqual(){
 
 void test_find_Index(){
   ArrayUtil a = create(4,6);
-  int *a1 = (int *)a.base;
+  int *address = a.base;
   for (int i = 0; i < a.length; i++) {
-    a1[i]=i+4;
+    *(address+i*a.typeSize)=i+4;
   }
-  int element = 2;
-  int result1 = findIndex(a,element);
+  int result1 = findIndex(a,2);
   assert(result1 ==-1);
-  int element2 = 7;
-  int result2 = findIndex(a,element2);
+  int result2 = findIndex(a,7);
   assert(result2 == 3);
 }
 
@@ -52,9 +54,9 @@ void test_resize(){
   assert(a.length==6);
   assert(b.length==3);
   assert(c.length==12);
-  // int *a1 = (int *)a.base;
-  // int *b1 = (int *)b.base;
-  // int *c1 = (int *)c.base;
+  // for (int i = 0; i < b.length; i++) {
+  //   assert(b.bases[i]==0);
+  // }
 }
 
 void test_dispose(){
